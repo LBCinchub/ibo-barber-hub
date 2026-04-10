@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { Calendar, Users, Mail, CheckCircle2, XCircle, Clock, Copy, ExternalLink } from "lucide-react";
+import { Calendar, Users, Mail, CheckCircle2, XCircle, Clock, Copy, ExternalLink, ArrowLeft } from "lucide-react";
 
 const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
 
@@ -45,8 +45,8 @@ export default function Admin() {
           <h1 className="font-heading text-xl">IBO Barber — Admin</h1>
           <p className="font-body text-xs text-muted-foreground">Dashboard</p>
         </div>
-        <a href="/" className="ml-auto font-body text-xs text-primary hover:underline flex items-center gap-1">
-          <ExternalLink className="h-3 w-3" /> View site
+        <a href="/" className="ml-auto font-body text-xs text-primary hover:underline flex items-center gap-1.5">
+          <ArrowLeft className="h-3.5 w-3.5" /> Back to site
         </a>
       </div>
 
