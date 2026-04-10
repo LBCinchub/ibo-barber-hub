@@ -10,18 +10,82 @@ const SERVICES_EN = ["Men's Haircut — 18$", "Boy's Haircut — 12$", "Fade / S
 
 const TIME_SLOTS = ["9:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
 
-function getDates() {
-  const dates = [];
-  const today = new Date();
-  for (let i = 1; i <= 365; i++) {
-    const d = new Date(today);
-    d.setDate(today.getDate() + i);
-    if (d.getDay() !== 0) dates.push(d); // exclude Sundays
-  }
-  return dates;
-}
-
 const fmt = (d, lang) => d.toLocaleDateString(lang === "fr" ? "fr-CA" : "en-CA", { weekday: "short", month: "short", day: "numeric" });
+
+function Calendar({ selected, onSelect, lang }) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const [viewYear, setViewYear] = useState(today.getFullYear());
+  const [viewMonth, setViewMonth] = useState(today.getMonth());
+
+  const monthName = new Date(viewYear, viewMonth, 1).toLocaleDateString(
+    lang === "fr" ? "fr-CA" : "en-CA",
+    { month: "long", year: "numeric" }
+  );
+
+  const firstDay = new Date(viewYear, viewMonth, 1).getDay(); // 0=Sun
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+  const prevMonth = () => {
+    if (viewMonth === 0) { setViewMonth(11); setViewYear(y => y - 1); }
+    else setViewMonth(m => m - 1);
+  };
+  const nextMonth = () => {
+    if (viewMonth === 11) { setViewMonth(0); setViewYear(y => y + 1); }
+    else setViewMonth(m => m + 1);
+  };
+
+  const dayLabels = lang === "fr"
+    ? ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"]
+    : ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+
+  const cells = [];
+  for (let i = 0; i < firstDay; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+
+  const isPrevDisabled = viewYear === today.getFullYear() && viewMonth === today.getMonth();
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-4">
+        <button onClick={prevMonth} disabled={isPrevDisabled}
+          className="h-8 w-8 rounded-full flex items-center justify-center hover:bg-muted transition-colors disabled:opacity-30">
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <span className="font-body text-sm font-medium text-foreground capitalize">{monthName}</span>
+        <button onClick={nextMonth}
+          className="h-8 w-8 rounded-full flex items-center justify-center hover:bg-muted transition-colors">
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      </div>
+      <div className="grid grid-cols-7 mb-2">
+        {dayLabels.map(l => (
+          <div key={l} className="text-center font-body text-xs text-muted-foreground py-1">{l}</div>
+        ))}
+      </div>
+      <div className="grid grid-cols-7 gap-1">
+        {cells.map((day, i) => {
+          if (!day) return <div key={`e-${i}`} />;
+          const d = new Date(viewYear, viewMonth, day);
+          const isSunday = d.getDay() === 0;
+          const isPast = d <= today;
+          const isDisabled = isSunday || isPast;
+          const isSelected = selected && selected.toDateString() === d.toDateString();
+          return (
+            <button key={day} onClick={() => !isDisabled && onSelect(d)} disabled={isDisabled}
+              className={`h-9 w-full rounded-lg font-body text-sm transition-all
+                ${isSelected ? "bg-primary text-primary-foreground" : ""}
+                ${!isSelected && !isDisabled ? "hover:bg-muted text-foreground" : ""}
+                ${isDisabled ? "text-muted-foreground/30 cursor-not-allowed" : ""}
+              `}>
+              {day}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default function BookingModal({ isOpen, onClose, preSelectedService }) {
   const { lang } = useLang();
@@ -37,8 +101,6 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
-
-  const dates = getDates();
 
   const reset = () => {
     setStep(0); setService(preSelectedService ?? null);
@@ -136,14 +198,7 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
                 <div className="space-y-6">
                   <div>
                     <p className="font-body text-sm text-muted-foreground mb-3">{tx.select_date}</p>
-                    <div className="grid grid-cols-2 gap-2">
-                      {dates.map((d, i) => (
-                        <button key={i} onClick={() => setDate(d)}
-                          className={`px-4 py-2.5 rounded-xl border font-body text-xs transition-all ${date && fmt(date, lang) === fmt(d, lang) ? "border-primary bg-primary/10 text-foreground" : "border-border/50 hover:border-primary/40 text-muted-foreground"}`}>
-                          {fmt(d, lang)}
-                        </button>
-                      ))}
-                    </div>
+                    <Calendar selected={date} onSelect={(d) => { setDate(d); setTime(null); }} lang={lang} />
                   </div>
                   {date && (
                     <div>
@@ -151,7 +206,7 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
                       <div className="mb-2">
                         <p className="font-body text-xs text-muted-foreground/60 mb-2">{tx.morning}</p>
                         <div className="flex flex-wrap gap-2">
-                          {morningSlots.map(s => (
+                          {TIME_SLOTS.filter(s => parseInt(s) < 12).map(s => (
                             <button key={s} onClick={() => setTime(s)}
                               className={`px-4 py-2 rounded-full border font-body text-sm transition-all ${time === s ? "border-primary bg-primary text-primary-foreground" : "border-border/50 hover:border-primary/40 text-muted-foreground"}`}>
                               {s}
@@ -162,7 +217,7 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
                       <div>
                         <p className="font-body text-xs text-muted-foreground/60 mb-2">{tx.afternoon}</p>
                         <div className="flex flex-wrap gap-2">
-                          {afternoonSlots.map(s => (
+                          {TIME_SLOTS.filter(s => parseInt(s) >= 12).map(s => (
                             <button key={s} onClick={() => setTime(s)}
                               className={`px-4 py-2 rounded-full border font-body text-sm transition-all ${time === s ? "border-primary bg-primary text-primary-foreground" : "border-border/50 hover:border-primary/40 text-muted-foreground"}`}>
                               {s}
