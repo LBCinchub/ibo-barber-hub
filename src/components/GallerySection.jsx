@@ -1,16 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, User, Users } from "lucide-react";
 import { useLang } from "@/lib/LanguageContext";
 import { t } from "@/lib/translations";
 
-const photos = [
-  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/148e1ef08_generated_image.png", label: "Balayage & Highlights" },
-  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/906f9f1e5_generated_image.png", label: "Permanente Boucles" },
-  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/27ed1f2d3_generated_image.png", label: "Coloration Bordeaux" },
-  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/1b3210a52_generated_image.png", label: "Retouche Racines" },
-  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/66a5c38f7_generated_image.png", label: "Blonde Platine" },
-  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/5d1c3510e_generated_image.png", label: "Ondulations Naturelles" },
+const menPhotos = [
   { url: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80", label: "Coupe Homme" },
   { url: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=80", label: "Fade / Dégradé" },
   { url: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&q=80", label: "Barbe & Contour" },
@@ -19,10 +13,21 @@ const photos = [
   { url: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=600&q=80", label: "Style & Finition" },
 ];
 
+const womenPhotos = [
+  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/148e1ef08_generated_image.png", label: "Balayage & Highlights" },
+  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/906f9f1e5_generated_image.png", label: "Permanente Boucles" },
+  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/27ed1f2d3_generated_image.png", label: "Coloration Bordeaux" },
+  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/1b3210a52_generated_image.png", label: "Retouche Racines" },
+  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/66a5c38f7_generated_image.png", label: "Blonde Platine" },
+  { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/5d1c3510e_generated_image.png", label: "Ondulations Naturelles" },
+];
+
 export default function GallerySection() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [tab, setTab] = useState("men");
   const { lang } = useLang();
   const tx = t[lang].gallery;
+  const photos = tab === "men" ? menPhotos : womenPhotos;
 
   const prev = () => setLightboxIndex((i) => (i - 1 + photos.length) % photos.length);
   const next = () => setLightboxIndex((i) => (i + 1) % photos.length);
@@ -44,7 +49,28 @@ export default function GallerySection() {
           className="text-center mb-16"
         >
           <p className="font-body text-sm uppercase tracking-[0.3em] text-primary mb-3">{tx.label}</p>
-          <h2 className="font-heading text-4xl md:text-5xl text-foreground">{tx.title}</h2>
+          <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-8">{tx.title}</h2>
+
+          <div className="inline-flex items-center gap-2 bg-card border border-border/50 rounded-full p-1">
+            <button
+              onClick={() => { setTab("men"); setLightboxIndex(null); }}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-body text-sm transition-all ${
+                tab === "men" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <User className="h-4 w-4" />
+              {lang === "fr" ? "Homme" : "Men"}
+            </button>
+            <button
+              onClick={() => { setTab("women"); setLightboxIndex(null); }}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-body text-sm transition-all ${
+                tab === "women" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Users className="h-4 w-4" />
+              {lang === "fr" ? "Femme" : "Women"}
+            </button>
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
