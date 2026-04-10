@@ -96,7 +96,7 @@ export default function Footer() {
             href="https://lbc.network"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-block font-body text-xs text-muted-foreground/50 hover:text-primary transition-colors"
+            className="mt-4 inline-block font-body text-xs text-muted-foreground hover:text-primary transition-colors"
           >
             Powered by LBC.NETWORK
           </a>
