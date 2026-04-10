@@ -4,7 +4,7 @@ import { useLang } from "@/lib/LanguageContext";
 import { t } from "@/lib/translations";
 
 const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
-const HERO_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/68065c38c_generated_41f64d21.png";
+const HERO_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/653883b86_generated_image.png";
 
 export default function HeroSection({ onBookClick }) {
   const { lang } = useLang();
