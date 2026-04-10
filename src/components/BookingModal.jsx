@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, CheckCircle2, ChevronRight, ChevronLeft } from "lucide-react";
+import { X, CheckCircle2, ChevronRight, ChevronLeft, User, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { useLang } from "@/lib/LanguageContext";
@@ -7,6 +7,8 @@ import { t } from "@/lib/translations";
 
 const SERVICES_FR = ["Coupe homme — 18$", "Coupe garçon — 12$", "Coupe Fade / Dégradé à peau — 22$", "Barbe — 10$", "Coupe + Barbe — 25$", "Fade + Barbe — 28$"];
 const SERVICES_EN = ["Men's Haircut — 18$", "Boy's Haircut — 12$", "Fade / Skin Fade — 22$", "Beard Trim — 10$", "Cut + Beard — 25$", "Fade + Beard — 28$"];
+const WOMEN_SERVICES_FR = ["Traitement / Démélant — 20$", "Coloration Complète — 60$", "Coloration Racines — 45$", "Permanente — 80$", "Consultation — Gratuit"];
+const WOMEN_SERVICES_EN = ["Treatment — 20$", "Full Coloring — 60$", "Root Touch-up — 45$", "Perm — 80$", "Consultation — Free"];
 
 const TIME_SLOTS = ["9:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
 
@@ -91,6 +93,7 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
   const services = lang === "fr" ? SERVICES_FR : SERVICES_EN;
 
   const [step, setStep] = useState(0);
+  const [serviceTab, setServiceTab] = useState("men");
   const [service, setService] = useState(preSelectedService ?? null);
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
@@ -184,8 +187,15 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
                 </div>
               ) : step === 0 ? (
                 <div className="space-y-3">
-                  <p className="font-body text-sm text-muted-foreground mb-4">{tx.select_service}</p>
-                  {services.map((s) => (
+                  <div className="inline-flex items-center gap-2 bg-muted rounded-full p-1 mb-4">
+                    <button onClick={() => setServiceTab("men")} className={`flex items-center gap-2 px-4 py-2 rounded-full font-body text-xs transition-all ${serviceTab === "men" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                      <User className="h-3 w-3" />{lang === "fr" ? "Homme" : "Men"}
+                    </button>
+                    <button onClick={() => setServiceTab("women")} className={`flex items-center gap-2 px-4 py-2 rounded-full font-body text-xs transition-all ${serviceTab === "women" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                      <Users className="h-3 w-3" />{lang === "fr" ? "Femme" : "Women"}
+                    </button>
+                  </div>
+                  {(serviceTab === "men" ? (lang === "fr" ? SERVICES_FR : SERVICES_EN) : (lang === "fr" ? WOMEN_SERVICES_FR : WOMEN_SERVICES_EN)).map((s) => (
                     <button key={s} onClick={() => setService(s)}
                       className={`w-full text-left px-5 py-4 rounded-2xl border font-body text-sm transition-all ${service === s ? "border-primary bg-primary/10 text-foreground" : "border-border/50 bg-card hover:border-primary/40 text-muted-foreground"}`}>
                       {s}
