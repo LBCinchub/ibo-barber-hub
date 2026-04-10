@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MapPin, Phone, Clock, Mail, Facebook, Instagram } from "lucide-react";
+import { MapPin, Phone, Clock, Mail, Facebook, Instagram, Car } from "lucide-react";
 import { useLang } from "@/lib/LanguageContext";
 import { t } from "@/lib/translations";
 
@@ -76,6 +76,16 @@ export default function AboutSection() {
                       <Instagram className="h-4 w-4" /> The_ibo_barber
                     </a>
                   </div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Car className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-body text-sm font-medium text-foreground">{tx.mobile}</h4>
+                  <p className="font-body text-sm text-muted-foreground">{tx.mobile_sub}</p>
                 </div>
               </div>
             </div>

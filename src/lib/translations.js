@@ -28,6 +28,8 @@ export const t = {
       email: "Email",
       social: "Réseaux sociaux",
       experience: "Années d'expérience",
+      mobile: "Nous nous déplaçons chez vous",
+      mobile_sub: "Région de Gatineau & Ottawa seulement",
     },
     gallery: { label: "Nos réalisations", title: "Galerie" },
     footer: {
@@ -69,6 +71,8 @@ export const t = {
       email: "Email",
       social: "Social media",
       experience: "Years of experience",
+      mobile: "We come to you",
+      mobile_sub: "Gatineau & Ottawa area only",
     },
     gallery: { label: "Our work", title: "Gallery" },
     footer: {
