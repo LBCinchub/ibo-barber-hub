@@ -7,8 +7,8 @@ import { t } from "@/lib/translations";
 
 const SERVICES_FR = ["Coupe homme — 18$", "Coupe garçon — 12$", "Coupe Fade / Dégradé à peau — 22$", "Barbe — 10$", "Coupe + Barbe — 25$", "Fade + Barbe — 28$"];
 const SERVICES_EN = ["Men's Haircut — 18$", "Boy's Haircut — 12$", "Fade / Skin Fade — 22$", "Beard Trim — 10$", "Cut + Beard — 25$", "Fade + Beard — 28$"];
-const WOMEN_SERVICES_FR = ["Traitement / Démélant — 20$", "Coloration Complète — 60$", "Coloration Racines — 45$", "Permanente — 80$", "Consultation — Gratuit"];
-const WOMEN_SERVICES_EN = ["Treatment — 20$", "Full Coloring — 60$", "Root Touch-up — 45$", "Perm — 80$", "Consultation — Free"];
+const WOMEN_SERVICES_FR = ["Traitement / Démélant — 20$", "Coloration Complète — 60$", "Coloration Racines — 45$", "Permanente — 50$", "Consultation — Gratuit"];
+const WOMEN_SERVICES_EN = ["Treatment — 20$", "Full Coloring — 60$", "Root Touch-up — 45$", "Perm — 50$", "Consultation — Free"];
 
 const MONDAY_SLOTS = ["9:00","9:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30"];
 const WEEKDAY_SLOTS = ["9:00","9:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30"];

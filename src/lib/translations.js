@@ -25,7 +25,7 @@ export const t = {
         { title: "Traitement / Démélant", desc: "Soin professionnel pour un cuir chevelu frais et sain.", price: "20$" },
         { title: "Coloration Complète", desc: "Coloration intégrale pour une transformation complète.", price: "60$" },
         { title: "Coloration Racines", desc: "Retouche des racines pour un résultat naturel et uniforme.", price: "45$" },
-        { title: "Permanente", desc: "Boucles élégantes et volume durable pour sublimer votre chevelure.", price: "80$" },
+        { title: "Permanente", desc: "Boucles élégantes et volume durable pour sublimer votre chevelure.", price: "50$" },
         { title: "Consultation", desc: "30 minutes pour discuter de vos envies capillaires.", price: "Gratuit" },
       ],
       items: [
@@ -107,7 +107,7 @@ export const t = {
         { title: "Treatment", desc: "Professional treatment for a fresh and healthy scalp.", price: "20$" },
         { title: "Full Coloring", desc: "Full hair coloring for a complete transformation.", price: "60$" },
         { title: "Root Touch-up", desc: "Root touch-up for a natural and even result.", price: "45$" },
-        { title: "Perm", desc: "Elegant curls and lasting volume to enhance your hair.", price: "80$" },
+        { title: "Perm", desc: "Elegant curls and lasting volume to enhance your hair.", price: "50$" },
         { title: "Consultation", desc: "30-minute meeting to discuss your hair goals.", price: "Free" },
       ],
       items: [
