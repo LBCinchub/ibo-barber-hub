@@ -1,10 +1,14 @@
 import { motion } from "framer-motion";
 import { Scissors } from "lucide-react";
+import { useLang } from "@/lib/LanguageContext";
+import { t } from "@/lib/translations";
 
 const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
 const HERO_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/68065c38c_generated_41f64d21.png";
 
 export default function HeroSection({ onBookClick }) {
+  const { lang } = useLang();
+  const tx = t[lang].hero;
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
@@ -48,8 +52,8 @@ export default function HeroSection({ onBookClick }) {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="font-body text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed"
         >
-          Coloration · Permanente · Démaquillant<br />
-          L'art de la beauté capillaire
+          {tx.subtitle}<br />
+          {tx.tagline}
         </motion.p>
 
         <motion.button
@@ -61,7 +65,7 @@ export default function HeroSection({ onBookClick }) {
           onClick={onBookClick}
           className="font-body text-base px-10 py-4 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-all shadow-lg shadow-primary/25"
         >
-          Prendre rendez-vous
+          {tx.cta}
         </motion.button>
       </div>
 

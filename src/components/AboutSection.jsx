@@ -1,9 +1,13 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone, Clock, Mail, Facebook, Instagram } from "lucide-react";
+import { useLang } from "@/lib/LanguageContext";
+import { t } from "@/lib/translations";
 
 const ABOUT_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/6740ccdb9_generated_f05b9bda.png";
 
 export default function AboutSection() {
+  const { lang } = useLang();
+  const tx = t[lang].about;
   return (
     <section id="about" className="relative py-24 overflow-hidden">
       <div className="absolute inset-0">
@@ -19,12 +23,12 @@ export default function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <p className="font-body text-sm uppercase tracking-[0.3em] text-primary mb-3">À propos</p>
+            <p className="font-body text-sm uppercase tracking-[0.3em] text-primary mb-3">{tx.label}</p>
             <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-6">
-              L'excellence au service de votre beauté
+              {tx.title}
             </h2>
             <p className="font-body text-muted-foreground leading-relaxed mb-8">
-              Chez IBO Barber, nous sommes spécialisés dans la coloration, les permanentes et les soins capillaires pour femmes. Notre expertise et notre passion pour la beauté garantissent un résultat exceptionnel à chaque visite.
+              {tx.desc}
             </p>
 
             <div className="space-y-5">
@@ -33,7 +37,7 @@ export default function AboutSection() {
                   <Phone className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <h4 className="font-body text-sm font-medium text-foreground">Téléphone</h4>
+                  <h4 className="font-body text-sm font-medium text-foreground">{tx.phone}</h4>
                   <a href="tel:8193198216" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">819-319-8216</a>
                 </div>
               </div>
@@ -43,7 +47,7 @@ export default function AboutSection() {
                   <MapPin className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <h4 className="font-body text-sm font-medium text-foreground">Adresse</h4>
+                  <h4 className="font-body text-sm font-medium text-foreground">{tx.address}</h4>
                   <a href="https://maps.google.com/?q=48+avenue+Gatineau+Gatineau" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">48 avenue Gatineau, Gatineau</a>
                 </div>
               </div>
@@ -53,7 +57,7 @@ export default function AboutSection() {
                   <Mail className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <h4 className="font-body text-sm font-medium text-foreground">Email</h4>
+                  <h4 className="font-body text-sm font-medium text-foreground">{tx.email}</h4>
                   <a href="mailto:IBOBarber3@gmail.com" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">IBOBarber3@gmail.com</a>
                 </div>
               </div>
@@ -63,7 +67,7 @@ export default function AboutSection() {
                   <Clock className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <h4 className="font-body text-sm font-medium text-foreground">Réseaux sociaux</h4>
+                  <h4 className="font-body text-sm font-medium text-foreground">{tx.social}</h4>
                   <div className="flex gap-4 mt-1">
                     <a href="https://www.facebook.com/IBO barber" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 font-body text-sm text-muted-foreground hover:text-primary transition-colors">
                       <Facebook className="h-4 w-4" /> IBO barber
@@ -90,7 +94,7 @@ export default function AboutSection() {
             </div>
             <div className="absolute -bottom-4 -left-4 bg-card border border-border/50 rounded-2xl px-6 py-4 shadow-xl">
               <p className="font-heading text-3xl text-primary">5+</p>
-              <p className="font-body text-xs text-muted-foreground">Années d'expérience</p>
+              <p className="font-body text-xs text-muted-foreground">{tx.experience}</p>
             </div>
           </motion.div>
         </div>

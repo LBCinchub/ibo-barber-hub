@@ -1,49 +1,29 @@
 import { motion } from "framer-motion";
 import { Paintbrush, Sparkles, Droplets, Clock } from "lucide-react";
+import { useLang } from "@/lib/LanguageContext";
+import { t } from "@/lib/translations";
 
 const SERVICES_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/090940018_generated_745dfa45.png";
 
-const services = [
-  {
-    title: "Démaquillant",
-    price: "40$",
-    icon: Droplets,
-    link: "https://calendly.com/ibobarber3/demaquillant-40",
-    desc: "Traitement démaquillant professionnel pour un cuir chevelu frais et sain.",
-  },
-  {
-    title: "Coloration Complète",
-    subtitle: "Tête entière",
-    price: "65$",
-    icon: Paintbrush,
-    link: "https://calendly.com/ibobarber3/coloration-complete-tete-entiere-65",
-    desc: "Coloration intégrale pour une transformation complète de votre look.",
-  },
-  {
-    title: "Coloration Racines",
-    subtitle: "Repousse",
-    price: "50$",
-    icon: Sparkles,
-    link: "https://calendly.com/ibobarber3/coloration-racines-repousse-50",
-    desc: "Retouche des racines pour un résultat naturel et uniforme.",
-  },
-  {
-    title: "Permanente",
-    price: "À partir de 50$",
-    icon: Sparkles,
-    link: "https://calendly.com/ibobarber3/permanente-a-partir-50",
-    desc: "Boucles élégantes et volume durable pour sublimer votre chevelure.",
-  },
-  {
-    title: "Consultation",
-    price: "Gratuit",
-    icon: Clock,
-    link: "https://calendly.com/ibobarber3/30min",
-    desc: "Réunion de 30 minutes pour discuter de vos envies capillaires.",
-  },
+const serviceIcons = [Droplets, Paintbrush, Sparkles, Sparkles, Clock];
+const serviceLinks = [
+  "https://calendly.com/ibobarber3/demaquillant-40",
+  "https://calendly.com/ibobarber3/coloration-complete-tete-entiere-65",
+  "https://calendly.com/ibobarber3/coloration-racines-repousse-50",
+  "https://calendly.com/ibobarber3/permanente-a-partir-50",
+  "https://calendly.com/ibobarber3/30min",
 ];
+const servicePrices = ["40$", "65$", "50$", "À partir de 50$", "Gratuit"];
 
 export default function ServicesSection({ onBookClick }) {
+  const { lang } = useLang();
+  const tx = t[lang].services;
+  const services = tx.items.map((item, i) => ({
+    ...item,
+    price: servicePrices[i],
+    icon: serviceIcons[i],
+    link: serviceLinks[i],
+  }));
   return (
     <section id="services" className="relative py-24 overflow-hidden">
       <div className="absolute inset-0">
@@ -59,8 +39,8 @@ export default function ServicesSection({ onBookClick }) {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="font-body text-sm uppercase tracking-[0.3em] text-primary mb-3">Nos services</p>
-          <h2 className="font-heading text-4xl md:text-5xl text-foreground">Tarifs & Services</h2>
+          <p className="font-body text-sm uppercase tracking-[0.3em] text-primary mb-3">{tx.label}</p>
+          <h2 className="font-heading text-4xl md:text-5xl text-foreground">{tx.title}</h2>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -97,7 +77,7 @@ export default function ServicesSection({ onBookClick }) {
                     rel="noopener noreferrer"
                     className="font-body text-sm px-5 py-2 bg-primary/10 text-primary rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                   >
-                    Réserver
+                    {tx.book}
                   </a>
                 </div>
               </motion.div>
@@ -116,7 +96,7 @@ export default function ServicesSection({ onBookClick }) {
             onClick={onBookClick}
             className="font-body text-base px-10 py-4 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity shadow-lg shadow-primary/20"
           >
-            Voir tous les créneaux disponibles
+            {tx.cta}
           </button>
         </motion.div>
       </div>

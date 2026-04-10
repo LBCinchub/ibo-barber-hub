@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useLang } from "@/lib/LanguageContext";
+import { t } from "@/lib/translations";
 
 const photos = [
   { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/148e1ef08_generated_image.png", label: "Balayage & Highlights" },
@@ -13,6 +15,8 @@ const photos = [
 
 export default function GallerySection() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const { lang } = useLang();
+  const tx = t[lang].gallery;
 
   const prev = () => setLightboxIndex((i) => (i - 1 + photos.length) % photos.length);
   const next = () => setLightboxIndex((i) => (i + 1) % photos.length);
@@ -33,8 +37,8 @@ export default function GallerySection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="font-body text-sm uppercase tracking-[0.3em] text-primary mb-3">Nos réalisations</p>
-          <h2 className="font-heading text-4xl md:text-5xl text-foreground">Galerie</h2>
+          <p className="font-body text-sm uppercase tracking-[0.3em] text-primary mb-3">{tx.label}</p>
+          <h2 className="font-heading text-4xl md:text-5xl text-foreground">{tx.title}</h2>
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">

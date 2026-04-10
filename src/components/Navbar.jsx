@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Menu, X, Shield } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { useLang } from "@/lib/LanguageContext";
+import { t } from "@/lib/translations";
 
 const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
 
@@ -9,6 +10,7 @@ export default function Navbar({ onBookClick }) {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
   const { lang, toggleLang } = useLang();
+  const tx = t[lang].nav;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
@@ -19,8 +21,8 @@ export default function Navbar({ onBookClick }) {
         </a>
 
         <div className="hidden md:flex items-center gap-8">
-          <a href="#services" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">Services</a>
-          <a href="#about" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">À propos</a>
+          <a href="#services" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">{tx.services}</a>
+          <a href="#about" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">{tx.about}</a>
           {/* Language Toggle */}
           <div className="flex items-center gap-1 bg-card border border-border/50 rounded-full px-1 py-1">
             <button
@@ -45,7 +47,7 @@ export default function Navbar({ onBookClick }) {
             onClick={onBookClick}
             className="font-body text-sm px-6 py-2.5 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
           >
-            Réserver
+            {tx.book}
           </button>
         </div>
 
@@ -56,13 +58,13 @@ export default function Navbar({ onBookClick }) {
 
       {open && (
         <div className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border px-6 py-4 space-y-4">
-          <a href="#services" onClick={() => setOpen(false)} className="block font-body text-sm text-muted-foreground hover:text-primary">Services</a>
-          <a href="#about" onClick={() => setOpen(false)} className="block font-body text-sm text-muted-foreground hover:text-primary">À propos</a>
+          <a href="#services" onClick={() => setOpen(false)} className="block font-body text-sm text-muted-foreground hover:text-primary">{tx.services}</a>
+          <a href="#about" onClick={() => setOpen(false)} className="block font-body text-sm text-muted-foreground hover:text-primary">{tx.about}</a>
           <button
             onClick={() => { onBookClick(); setOpen(false); }}
             className="w-full font-body text-sm px-6 py-2.5 bg-primary text-primary-foreground rounded-full hover:opacity-90"
           >
-            Réserver
+            {tx.book}
           </button>
         </div>
       )}

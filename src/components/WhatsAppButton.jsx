@@ -1,9 +1,13 @@
 import { motion } from "framer-motion";
+import { useLang } from "@/lib/LanguageContext";
+import { t } from "@/lib/translations";
 
 const WHATSAPP_NUMBER = "18193198216";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=Bonjour%20IBO%20Barber%2C%20je%20voudrais%20prendre%20rendez-vous%20!`;
 
 export default function WhatsAppButton() {
+  const { lang } = useLang();
+  const label = t[lang].whatsapp;
   return (
     <motion.a
       href={WHATSAPP_URL}
@@ -28,7 +32,7 @@ export default function WhatsAppButton() {
         transition={{ delay: 2.5 }}
         className="absolute right-16 bg-card border border-border/50 text-foreground text-xs font-body px-3 py-1.5 rounded-full whitespace-nowrap shadow-md pointer-events-none"
       >
-        Chattez avec nous !
+        {label}
       </motion.span>
     </motion.a>
   );
