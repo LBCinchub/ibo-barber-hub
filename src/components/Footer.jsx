@@ -96,24 +96,9 @@ export default function Footer() {
             href="https://lbc.network"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-1.5 font-body text-xs text-muted-foreground/50 hover:text-primary transition-colors group"
+            className="mt-4 inline-block font-body text-xs text-muted-foreground/50 hover:text-primary transition-colors"
           >
-            Powered by{" "}
-            <span className="font-semibold text-primary/70 group-hover:text-primary transition-colors tracking-wide">
-              LBC.NETWORK
-            </span>
-          </a>
-
-          <a
-            href="https://lbc.network"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-1.5 font-body text-xs text-muted-foreground/50 hover:text-primary transition-colors group"
-          >
-            Powered by{" "}
-            <span className="font-semibold text-primary/70 group-hover:text-primary transition-colors tracking-wide">
-              LBC.NETWORK
-            </span>
+            Powered by LBC.NETWORK
           </a>
         </div>
       </div>
