@@ -67,9 +67,7 @@ function Calendar({ selected, onSelect, lang }) {
         {cells.map((day, i) => {
           if (!day) return <div key={`e-${i}`} />;
           const d = new Date(viewYear, viewMonth, day);
-          const isSunday = d.getDay() === 0;
-          const isPast = d <= today;
-          const isDisabled = isSunday || isPast;
+          const isDisabled = d < today;
           const isSelected = selected && selected.toDateString() === d.toDateString();
           return (
             <button key={day} onClick={() => !isDisabled && onSelect(d)} disabled={isDisabled}
