@@ -92,14 +92,28 @@ export default function Footer() {
             {tx.copyright}
           </p>
 
-          <a
-            href="https://lbc.network"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-block font-body text-xs text-primary hover:opacity-80 transition-opacity font-semibold tracking-wide"
-          >
-            Powered by LBC.NETWORK
-          </a>
+          <div className="mt-4 flex flex-col items-center gap-2">
+            <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-4 py-2">
+              <svg viewBox="0 0 397.7 311.7" className="h-3.5 w-3.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="sol-grad-footer" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#9945FF" />
+                    <stop offset="100%" stopColor="#14F195" />
+                  </linearGradient>
+                </defs>
+                <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7zm0-164.1c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7zm317.4-70.1H64.6c-3.5 0-6.8 1.4-9.2 3.8L-7.3 70.2c-4.1 4.1-1.2 11.1 4.6 11.1h317.4c3.5 0 6.8-1.4 9.2-3.8l62.7-62.7c4.1-4.1 1.2-11.1-4.6-11.1z" fill="url(#sol-grad-footer)"/>
+              </svg>
+              <span className="font-body text-xs text-muted-foreground">We accept <span className="text-foreground font-medium">Solana (SOL)</span></span>
+            </div>
+            <a
+              href="https://lbc.network"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-body text-xs text-primary hover:opacity-80 transition-opacity font-semibold tracking-wide"
+            >
+              Powered by LBC.NETWORK
+            </a>
+          </div>
         </div>
       </div>
     </footer>
