@@ -10,7 +10,16 @@ const SERVICES_EN = ["Men's Haircut — 18$", "Boy's Haircut — 12$", "Fade / S
 const WOMEN_SERVICES_FR = ["Traitement / Démélant — 20$", "Coloration Complète — 60$", "Coloration Racines — 45$", "Permanente — 80$", "Consultation — Gratuit"];
 const WOMEN_SERVICES_EN = ["Treatment — 20$", "Full Coloring — 60$", "Root Touch-up — 45$", "Perm — 80$", "Consultation — Free"];
 
-const TIME_SLOTS = ["9:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+const MONDAY_SLOTS = ["9:00","9:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30"];
+const WEEKDAY_SLOTS = ["9:00","9:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30"];
+
+const getSlotsForDate = (d) => {
+  if (!d) return [];
+  const day = d.getDay(); // 0=Sun
+  if (day === 0) return []; // closed Sunday
+  if (day === 1) return MONDAY_SLOTS; // Monday
+  return WEEKDAY_SLOTS; // Tue-Sat
+};
 
 const fmt = (d, lang) => d.toLocaleDateString(lang === "fr" ? "fr-CA" : "en-CA", { weekday: "short", month: "short", day: "numeric" });
 
@@ -69,7 +78,7 @@ function Calendar({ selected, onSelect, lang }) {
         {cells.map((day, i) => {
           if (!day) return <div key={`e-${i}`} />;
           const d = new Date(viewYear, viewMonth, day);
-          const isDisabled = d < today;
+          const isDisabled = d < today || d.getDay() === 0;
           const isSelected = selected && selected.toDateString() === d.toDateString();
           return (
             <button key={day} onClick={() => !isDisabled && onSelect(d)} disabled={isDisabled}
@@ -125,8 +134,7 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
     setDone(true);
   };
 
-  const morningSlots = TIME_SLOTS.filter(t => parseInt(t) < 12);
-  const afternoonSlots = TIME_SLOTS.filter(t => parseInt(t) >= 12);
+
 
   return (
     <AnimatePresence>
@@ -211,28 +219,41 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
                   {date && (
                     <div>
                       <p className="font-body text-sm text-muted-foreground mb-3">{tx.select_time}</p>
-                      <div className="mb-2">
-                        <p className="font-body text-xs text-muted-foreground/60 mb-2">{tx.morning}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {TIME_SLOTS.filter(s => parseInt(s) < 12).map(s => (
-                            <button key={s} onClick={() => setTime(s)}
-                              className={`px-4 py-2 rounded-full border font-body text-sm transition-all ${time === s ? "border-primary bg-primary text-primary-foreground" : "border-border/50 hover:border-primary/40 text-muted-foreground"}`}>
-                              {s}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                      <div>
-                        <p className="font-body text-xs text-muted-foreground/60 mb-2">{tx.afternoon}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {TIME_SLOTS.filter(s => parseInt(s) >= 12).map(s => (
-                            <button key={s} onClick={() => setTime(s)}
-                              className={`px-4 py-2 rounded-full border font-body text-sm transition-all ${time === s ? "border-primary bg-primary text-primary-foreground" : "border-border/50 hover:border-primary/40 text-muted-foreground"}`}>
-                              {s}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
+                      {(() => {
+                        const slots = getSlotsForDate(date);
+                        const morning = slots.filter(s => parseInt(s) < 12);
+                        const afternoon = slots.filter(s => parseInt(s) >= 12);
+                        return (
+                          <>
+                            {morning.length > 0 && (
+                              <div className="mb-3">
+                                <p className="font-body text-xs text-muted-foreground/60 mb-2">{tx.morning}</p>
+                                <div className="flex flex-wrap gap-2">
+                                  {morning.map(s => (
+                                    <button key={s} onClick={() => setTime(s)}
+                                      className={`px-4 py-2 rounded-full border font-body text-sm transition-all ${time === s ? "border-primary bg-primary text-primary-foreground" : "border-border/50 hover:border-primary/40 text-muted-foreground"}`}>
+                                      {s}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            {afternoon.length > 0 && (
+                              <div>
+                                <p className="font-body text-xs text-muted-foreground/60 mb-2">{tx.afternoon}</p>
+                                <div className="flex flex-wrap gap-2">
+                                  {afternoon.map(s => (
+                                    <button key={s} onClick={() => setTime(s)}
+                                      className={`px-4 py-2 rounded-full border font-body text-sm transition-all ${time === s ? "border-primary bg-primary text-primary-foreground" : "border-border/50 hover:border-primary/40 text-muted-foreground"}`}>
+                                      {s}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()}
                     </div>
                   )}
                 </div>
