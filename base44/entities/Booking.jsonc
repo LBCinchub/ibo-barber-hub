@@ -1,0 +1,39 @@
+{
+  "name": "Booking",
+  "type": "object",
+  "properties": {
+    "client_name": {
+      "type": "string",
+      "title": "Nom du client"
+    },
+    "client_email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "service": {
+      "type": "string",
+      "title": "Service"
+    },
+    "start_time": {
+      "type": "string",
+      "title": "Date & heure"
+    },
+    "status": {
+      "type": "string",
+      "title": "Statut",
+      "enum": [
+        "confirmed",
+        "cancelled"
+      ],
+      "default": "confirmed"
+    },
+    "calendly_event_id": {
+      "type": "string",
+      "title": "Calendly Event ID"
+    }
+  },
+  "required": [
+    "client_name",
+    "client_email"
+  ]
+}
