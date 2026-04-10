@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Menu, X, Shield } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
+import { useLang } from "@/lib/LanguageContext";
 
 const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
 
 export default function Navbar({ onBookClick }) {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
+  const { lang, toggleLang } = useLang();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
@@ -19,6 +21,21 @@ export default function Navbar({ onBookClick }) {
         <div className="hidden md:flex items-center gap-8">
           <a href="#services" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">Services</a>
           <a href="#about" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">À propos</a>
+          {/* Language Toggle */}
+          <div className="flex items-center gap-1 bg-card border border-border/50 rounded-full px-1 py-1">
+            <button
+              onClick={() => toggleLang('fr')}
+              className={`font-body text-xs px-2.5 py-1 rounded-full transition-colors ${lang === 'fr' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+            >
+              FR
+            </button>
+            <button
+              onClick={() => toggleLang('en')}
+              className={`font-body text-xs px-2.5 py-1 rounded-full transition-colors ${lang === 'en' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+            >
+              EN
+            </button>
+          </div>
           {user?.role === 'admin' && (
             <a href="/admin" title="Admin" className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors">
               <Shield className="h-4 w-4 text-primary" />
