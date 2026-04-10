@@ -1,8 +1,22 @@
-import { Scissors, Phone, MapPin, Mail, Facebook, Instagram } from "lucide-react";
+import { useState } from "react";
+import { Scissors, Phone, MapPin, Mail, Facebook, Instagram, Send, CheckCircle2 } from "lucide-react";
+import { base44 } from "@/api/base44Client";
 
 const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState(null); // null | "loading" | "success" | "error"
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("loading");
+    await base44.entities.NewsletterSubscriber.create({ email });
+    setStatus("success");
+    setEmail("");
+  };
+
   return (
     <footer className="bg-card border-t border-border/30 py-12">
       <div className="max-w-6xl mx-auto px-6">
@@ -38,6 +52,36 @@ export default function Footer() {
                 <Instagram className="h-4 w-4" />
               </a>
             </div>
+          </div>
+
+          {/* Newsletter */}
+          <div className="w-full max-w-md mb-8">
+            <p className="font-heading text-lg text-foreground mb-1">Restez informé(e)</p>
+            <p className="font-body text-xs text-muted-foreground mb-4">Promotions exclusives et nouveautés du salon</p>
+            {status === "success" ? (
+              <div className="flex items-center justify-center gap-2 text-primary">
+                <CheckCircle2 className="h-5 w-5" />
+                <span className="font-body text-sm">Merci pour votre inscription !</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="flex gap-2">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="votre@email.com"
+                  required
+                  className="flex-1 bg-input border border-border/50 rounded-full px-4 py-2.5 text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/60 transition-colors"
+                />
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="h-10 w-10 rounded-full bg-primary flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0 disabled:opacity-50"
+                >
+                  <Send className="h-4 w-4 text-primary-foreground" />
+                </button>
+              </form>
+            )}
           </div>
 
           <p className="font-body text-xs text-muted-foreground/60">
