@@ -1,22 +1,22 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Paintbrush, Sparkles, Droplets, Clock } from "lucide-react";
+import { User, Users, Scissors, Paintbrush, Sparkles, Droplets, Clock } from "lucide-react";
 import { useLang } from "@/lib/LanguageContext";
 import { t } from "@/lib/translations";
 
 const SERVICES_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/090940018_generated_745dfa45.png";
 
-const serviceIcons = [Droplets, Paintbrush, Sparkles, Paintbrush, Sparkles, Clock];
-
-const servicePrices = ["18$", "12$", "22$", "10$", "25$", "28$"];
+const MEN_ICONS = [Scissors, Scissors, Scissors, Paintbrush, Scissors, Scissors];
+const WOMEN_ICONS = [Droplets, Paintbrush, Sparkles, Paintbrush, Clock];
 
 export default function ServicesSection({ onBookClick }) {
   const { lang } = useLang();
   const tx = t[lang].services;
-  const services = tx.items.map((item, i) => ({
-    ...item,
-    price: servicePrices[i],
-    icon: serviceIcons[i],
-  }));
+  const [tab, setTab] = useState("men");
+
+  const services = tab === "men"
+    ? tx.men_items.map((item, i) => ({ ...item, icon: MEN_ICONS[i] }))
+    : tx.women_items.map((item, i) => ({ ...item, icon: WOMEN_ICONS[i] }));
   return (
     <section id="services" className="relative py-24 overflow-hidden">
       <div className="absolute inset-0">
@@ -30,10 +30,32 @@ export default function ServicesSection({ onBookClick }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <p className="font-body text-sm uppercase tracking-[0.3em] text-primary mb-3">{tx.label}</p>
-          <h2 className="font-heading text-4xl md:text-5xl text-foreground">{tx.title}</h2>
+          <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-8">{tx.title}</h2>
+
+          {/* Men / Women toggle */}
+          <div className="inline-flex items-center gap-2 bg-card/80 border border-border/50 rounded-full p-1">
+            <button
+              onClick={() => setTab("men")}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-body text-sm transition-all ${
+                tab === "men" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <User className="h-4 w-4" />
+              {tx.men}
+            </button>
+            <button
+              onClick={() => setTab("women")}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-body text-sm transition-all ${
+                tab === "women" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Users className="h-4 w-4" />
+              {tx.women}
+            </button>
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
