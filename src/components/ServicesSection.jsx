@@ -6,13 +6,7 @@ import { t } from "@/lib/translations";
 const SERVICES_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/090940018_generated_745dfa45.png";
 
 const serviceIcons = [Droplets, Paintbrush, Sparkles, Sparkles, Clock];
-const serviceLinks = [
-  "https://calendly.com/ibobarber3/demaquillant-40",
-  "https://calendly.com/ibobarber3/coloration-complete-tete-entiere-65",
-  "https://calendly.com/ibobarber3/coloration-racines-repousse-50",
-  "https://calendly.com/ibobarber3/permanente-a-partir-50",
-  "https://calendly.com/ibobarber3/30min",
-];
+
 const servicePrices = ["40$", "65$", "50$", "À partir de 50$", "Gratuit"];
 
 export default function ServicesSection({ onBookClick }) {
@@ -22,7 +16,6 @@ export default function ServicesSection({ onBookClick }) {
     ...item,
     price: servicePrices[i],
     icon: serviceIcons[i],
-    link: serviceLinks[i],
   }));
   return (
     <section id="services" className="relative py-24 overflow-hidden">
@@ -71,14 +64,12 @@ export default function ServicesSection({ onBookClick }) {
 
                 <div className="flex items-center justify-between">
                   <span className="font-heading text-2xl text-primary">{service.price}</span>
-                  <a
-                    href={service.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={onBookClick}
                     className="font-body text-sm px-5 py-2 bg-primary/10 text-primary rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                   >
                     {tx.book}
-                  </a>
+                  </button>
                 </div>
               </motion.div>
             );
