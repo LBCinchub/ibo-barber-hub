@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Shield } from "lucide-react";
+import { useAuth } from "@/lib/AuthContext";
 
 const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
 
 export default function Navbar({ onBookClick }) {
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
@@ -17,6 +19,11 @@ export default function Navbar({ onBookClick }) {
         <div className="hidden md:flex items-center gap-8">
           <a href="#services" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">Services</a>
           <a href="#about" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">À propos</a>
+          {user?.role === 'admin' && (
+            <a href="/admin" title="Admin" className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors">
+              <Shield className="h-4 w-4 text-primary" />
+            </a>
+          )}
           <button
             onClick={onBookClick}
             className="font-body text-sm px-6 py-2.5 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
