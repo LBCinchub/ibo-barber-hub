@@ -13,7 +13,7 @@ const TIME_SLOTS = ["9:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"
 function getDates() {
   const dates = [];
   const today = new Date();
-  for (let i = 1; i <= 14; i++) {
+  for (let i = 1; i <= 365; i++) {
     const d = new Date(today);
     d.setDate(today.getDate() + i);
     if (d.getDay() !== 0) dates.push(d); // exclude Sundays
