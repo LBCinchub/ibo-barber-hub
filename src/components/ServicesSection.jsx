@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Paintbrush, Sparkles, Droplets, Clock } from "lucide-react";
 
-const SERVICES_BG = "/__generating__/img_13b148737eec.png";
+const SERVICES_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/090940018_generated_745dfa45.png";
 
 const services = [
   {

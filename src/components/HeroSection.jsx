@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Scissors } from "lucide-react";
 
 const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
-const HERO_BG = "/__generating__/img_47ac28fb1b7e.png";
+const HERO_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/68065c38c_generated_41f64d21.png";
 
 export default function HeroSection({ onBookClick }) {
   return (

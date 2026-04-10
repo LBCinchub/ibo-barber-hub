@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone, Clock } from "lucide-react";
 
-const ABOUT_BG = "/__generating__/img_90e895d1941d.png";
+const ABOUT_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/6740ccdb9_generated_f05b9bda.png";
 
 export default function AboutSection() {
   return (
