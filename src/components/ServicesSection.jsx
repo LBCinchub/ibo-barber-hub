@@ -5,9 +5,9 @@ import { t } from "@/lib/translations";
 
 const SERVICES_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/090940018_generated_745dfa45.png";
 
-const serviceIcons = [Droplets, Paintbrush, Sparkles, Sparkles, Clock];
+const serviceIcons = [Droplets, Paintbrush, Sparkles, Paintbrush, Sparkles, Clock];
 
-const servicePrices = ["40$", "65$", "50$", "À partir de 50$", "Gratuit"];
+const servicePrices = ["18$", "12$", "22$", "10$", "25$", "28$"];
 
 export default function ServicesSection({ onBookClick }) {
   const { lang } = useLang();

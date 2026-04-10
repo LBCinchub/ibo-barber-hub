@@ -5,8 +5,8 @@ import { base44 } from "@/api/base44Client";
 import { useLang } from "@/lib/LanguageContext";
 import { t } from "@/lib/translations";
 
-const SERVICES_FR = ["Démaquillant — 40$", "Coloration Complète — 65$", "Coloration Racines — 50$", "Permanente — À partir de 50$", "Consultation — Gratuit"];
-const SERVICES_EN = ["Hair Treatment — 40$", "Full Coloring — 65$", "Root Touch-up — 50$", "Perm — From 50$", "Consultation — Free"];
+const SERVICES_FR = ["Coupe homme — 18$", "Coupe garçon — 12$", "Coupe Fade / Dégradé à peau — 22$", "Barbe — 10$", "Coupe + Barbe — 25$", "Fade + Barbe — 28$"];
+const SERVICES_EN = ["Men's Haircut — 18$", "Boy's Haircut — 12$", "Fade / Skin Fade — 22$", "Beard Trim — 10$", "Cut + Beard — 25$", "Fade + Beard — 28$"];
 
 const TIME_SLOTS = ["9:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
 
