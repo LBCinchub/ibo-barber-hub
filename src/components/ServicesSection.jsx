@@ -9,14 +9,7 @@ const SERVICES_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f
 const MEN_ICONS = [Scissors, Scissors, Scissors, Paintbrush, Scissors, Scissors];
 const WOMEN_ICONS = [Droplets, Paintbrush, Sparkles, Paintbrush, Clock];
 
-const MEN_IMAGES = [
-  "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80",
-  "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&q=80",
-  "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&q=80",
-  "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80",
-  "https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?w=400&q=80",
-  "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80",
-];
+
 
 export default function ServicesSection({ onBookClick }) {
   const { lang } = useLang();
@@ -70,7 +63,6 @@ export default function ServicesSection({ onBookClick }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, i) => {
             const Icon = service.icon;
-            const menImg = tab === "men" ? MEN_IMAGES[i] : null;
             return (
               <motion.div
                 key={service.title}
@@ -78,31 +70,25 @@ export default function ServicesSection({ onBookClick }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group relative bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl overflow-hidden hover:border-primary/40 transition-all duration-500 hover:shadow-xl hover:shadow-primary/5"
+                className="group relative bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-8 hover:border-primary/40 transition-all duration-500 hover:shadow-xl hover:shadow-primary/5"
               >
-                {menImg && (
-                  <div className="relative h-44 overflow-hidden">
-                    <img src={menImg} alt={service.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-card/90 to-transparent" />
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <Icon className="h-5 w-5 text-primary" />
                   </div>
-                )}
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
-                      <Icon className="h-4 w-4 text-primary" />
-                    </div>
-                    <h3 className="font-heading text-lg text-foreground">{service.title}</h3>
+                  <div>
+                    <h3 className="font-heading text-xl text-foreground">{service.title}</h3>
                   </div>
-                  <p className="font-body text-sm text-muted-foreground mb-5 leading-relaxed">{service.desc}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="font-heading text-2xl text-primary">{service.price}</span>
-                    <button
-                      onClick={onBookClick}
-                      className="font-body text-sm px-5 py-2 bg-primary/10 text-primary rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-                    >
-                      {tx.book}
-                    </button>
-                  </div>
+                </div>
+                <p className="font-body text-sm text-muted-foreground mb-6 leading-relaxed">{service.desc}</p>
+                <div className="flex items-center justify-between">
+                  <span className="font-heading text-2xl text-primary">{service.price}</span>
+                  <button
+                    onClick={onBookClick}
+                    className="font-body text-sm px-5 py-2 bg-primary/10 text-primary rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                  >
+                    {tx.book}
+                  </button>
                 </div>
               </motion.div>
             );

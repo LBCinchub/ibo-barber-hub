@@ -11,6 +11,12 @@ const photos = [
   { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/1b3210a52_generated_image.png", label: "Retouche Racines" },
   { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/66a5c38f7_generated_image.png", label: "Blonde Platine" },
   { url: "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/5d1c3510e_generated_image.png", label: "Ondulations Naturelles" },
+  { url: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80", label: "Coupe Homme" },
+  { url: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=80", label: "Fade / Dégradé" },
+  { url: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&q=80", label: "Barbe & Contour" },
+  { url: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&q=80", label: "Fade + Barbe" },
+  { url: "https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?w=600&q=80", label: "Coupe Garçon" },
+  { url: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=600&q=80", label: "Style & Finition" },
 ];
 
 export default function GallerySection() {
