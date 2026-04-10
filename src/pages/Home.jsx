@@ -4,6 +4,7 @@ import HeroSection from "../components/HeroSection";
 import ServicesSection from "../components/ServicesSection";
 import AboutSection from "../components/AboutSection";
 import BookingModal from "../components/BookingModal";
+import WhatsAppButton from "../components/WhatsAppButton";
 import Footer from "../components/Footer";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
       <AboutSection />
       <Footer />
       <BookingModal isOpen={bookingOpen} onClose={closeBooking} />
+      <WhatsAppButton />
     </div>
   );
 }
