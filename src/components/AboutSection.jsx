@@ -1,0 +1,83 @@
+import { motion } from "framer-motion";
+import { MapPin, Phone, Clock } from "lucide-react";
+
+const ABOUT_BG = "/__generating__/img_90e895d1941d.png";
+
+export default function AboutSection() {
+  return (
+    <section id="about" className="relative py-24 overflow-hidden">
+      <div className="absolute inset-0">
+        <img src={ABOUT_BG} alt="About" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/80" />
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <p className="font-body text-sm uppercase tracking-[0.3em] text-primary mb-3">À propos</p>
+            <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-6">
+              L'excellence au service de votre beauté
+            </h2>
+            <p className="font-body text-muted-foreground leading-relaxed mb-8">
+              Chez IBO Barber, nous sommes spécialisés dans la coloration, les permanentes et les soins capillaires pour femmes. Notre expertise et notre passion pour la beauté garantissent un résultat exceptionnel à chaque visite.
+            </p>
+
+            <div className="space-y-5">
+              <div className="flex items-start gap-4">
+                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Clock className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-body text-sm font-medium text-foreground">Horaires</h4>
+                  <p className="font-body text-sm text-muted-foreground">Sur rendez-vous uniquement</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-body text-sm font-medium text-foreground">Localisation</h4>
+                  <p className="font-body text-sm text-muted-foreground">Prenez rendez-vous en ligne</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Phone className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-body text-sm font-medium text-foreground">Contact</h4>
+                  <p className="font-body text-sm text-muted-foreground">Via Calendly pour réserver</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="relative"
+          >
+            <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-border/30">
+              <img src={ABOUT_BG} alt="Salon IBO Barber" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+            </div>
+            <div className="absolute -bottom-4 -left-4 bg-card border border-border/50 rounded-2xl px-6 py-4 shadow-xl">
+              <p className="font-heading text-3xl text-primary">5+</p>
+              <p className="font-body text-xs text-muted-foreground">Années d'expérience</p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
