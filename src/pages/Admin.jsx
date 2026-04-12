@@ -161,7 +161,7 @@ export default function Admin() {
                   </thead>
                   <tbody>
                     {bookings.map(b => (
-                      <React.Fragment key={b.id}>
+                      <> {/* key={b.id} */}
                         <tr className="border-b border-border/30 last:border-0 hover:bg-muted/30 transition-colors">
                         <td className="font-body text-sm px-5 py-3">{b.client_name}</td>
                         <td className="font-body text-xs text-muted-foreground px-5 py-3">{b.client_email}</td>
@@ -205,7 +205,7 @@ export default function Admin() {
                             </td>
                           </tr>
                         ) : null}
-                      </React.Fragment>
+                      </>
                     ))}
                   </tbody>
                 </table>
