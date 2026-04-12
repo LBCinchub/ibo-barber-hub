@@ -56,12 +56,14 @@ export default function Admin() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleConfirm = (id) => {
-    base44.entities.Booking.update(id, { status: "confirmed" });
+  const handleConfirm = async (id) => {
+    await base44.entities.Booking.update(id, { status: "confirmed" });
+    await base44.functions.invoke('sendBookingNotification', { bookingId: id, action: 'confirmed' });
   };
 
-  const handleReject = (id) => {
-    base44.entities.Booking.update(id, { status: "cancelled" });
+  const handleReject = async (id) => {
+    await base44.entities.Booking.update(id, { status: "cancelled" });
+    await base44.functions.invoke('sendBookingNotification', { bookingId: id, action: 'rejected' });
   };
 
   const handleReschedule = (id) => {
