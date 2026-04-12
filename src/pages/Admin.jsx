@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
+import { useNavigate } from "react-router-dom";
 import { Calendar, Users, Mail, CheckCircle2, XCircle, Clock, Copy, ExternalLink, ArrowLeft } from "lucide-react";
 
 const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
 
 export default function Admin() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [subscribers, setSubscribers] = useState([]);
   const [tab, setTab] = useState("bookings");
@@ -36,7 +38,7 @@ export default function Admin() {
       <div className="bg-card border-b border-border/50 px-6 py-4 flex items-center gap-4">
         <img src={LOGO_URL} alt="IBO Barber" className="h-10 w-10 rounded-full" />
         <div>
-          <h1 className="font-heading text-xl">IBO Barber — Admin</h1>
+          <button onClick={() => base44.auth.redirectToLogin()} className="font-heading text-xl hover:text-primary transition-colors cursor-pointer">IBO Barber — Admin</button>
           <p className="font-body text-xs text-muted-foreground">Dashboard</p>
         </div>
         <a href="/" className="ml-auto font-body text-xs text-primary hover:underline flex items-center gap-1.5">
