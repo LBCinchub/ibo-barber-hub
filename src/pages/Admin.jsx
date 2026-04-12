@@ -13,6 +13,8 @@ export default function Admin() {
   const [subscribers, setSubscribers] = useState([]);
   const [tab, setTab] = useState("bookings");
   const [copied, setCopied] = useState(false);
+  const [rescheduleId, setRescheduleId] = useState(null);
+  const [rescheduleDate, setRescheduleDate] = useState("");
 
   useEffect(() => {
     base44.entities.Booking.list("-created_date", 50).then(setBookings);
@@ -52,6 +54,22 @@ export default function Admin() {
     navigator.clipboard.writeText(webhookNote);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleConfirm = (id) => {
+    base44.entities.Booking.update(id, { status: "confirmed" });
+  };
+
+  const handleReject = (id) => {
+    base44.entities.Booking.update(id, { status: "cancelled" });
+  };
+
+  const handleReschedule = (id) => {
+    if (rescheduleDate) {
+      base44.entities.Booking.update(id, { start_time: rescheduleDate });
+      setRescheduleId(null);
+      setRescheduleDate("");
+    }
   };
 
   const confirmed = bookings.filter(b => b.status === "confirmed");
@@ -136,7 +154,7 @@ export default function Admin() {
                 <table className="w-full">
                   <thead className="border-b border-border/50">
                     <tr>
-                      {["Client", "Email", "Service", "Date & Time", "Status"].map(h => (
+                      {["Client", "Email", "Service", "Date & Time", "Status", "Actions"].map(h => (
                         <th key={h} className="text-left font-body text-xs text-muted-foreground px-5 py-3">{h}</th>
                       ))}
                     </tr>
@@ -155,7 +173,37 @@ export default function Admin() {
                             {b.status === "confirmed" ? "Confirmed" : "Cancelled"}
                           </span>
                         </td>
+                        <td className="px-5 py-3 flex gap-2">
+                          {b.status !== "confirmed" && (
+                            <button onClick={() => handleConfirm(b.id)} className="font-body text-xs px-3 py-1 bg-green-500/10 text-green-400 rounded-full hover:bg-green-500/20 transition-colors">
+                              Confirm
+                            </button>
+                          )}
+                          {b.status === "confirmed" && (
+                            <button onClick={() => handleReject(b.id)} className="font-body text-xs px-3 py-1 bg-red-500/10 text-red-400 rounded-full hover:bg-red-500/20 transition-colors">
+                              Reject
+                            </button>
+                          )}
+                          <button onClick={() => setRescheduleId(b.id)} className="font-body text-xs px-3 py-1 bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors">
+                            Reschedule
+                          </button>
+                        </td>
                       </tr>
+                      {rescheduleId === b.id ? (
+                        <tr className="bg-muted/30">
+                          <td colSpan="6" className="px-5 py-4">
+                            <div className="flex gap-2 items-center">
+                              <input type="datetime-local" value={rescheduleDate} onChange={(e) => setRescheduleDate(e.target.value)} className="flex-1 bg-input border border-border/50 rounded-lg px-3 py-2 text-sm font-body text-foreground" />
+                              <button onClick={() => handleReschedule(b.id)} className="font-body text-xs px-4 py-2 bg-primary text-primary-foreground rounded-full hover:opacity-90">
+                                Save
+                              </button>
+                              <button onClick={() => { setRescheduleId(null); setRescheduleDate(""); }} className="font-body text-xs px-4 py-2 bg-muted text-muted-foreground rounded-full hover:bg-muted/80">
+                                Cancel
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
                     ))}
                   </tbody>
                 </table>
