@@ -17,6 +17,31 @@ export default function Admin() {
   useEffect(() => {
     base44.entities.Booking.list("-created_date", 50).then(setBookings);
     base44.entities.NewsletterSubscriber.list("-created_date", 100).then(setSubscribers);
+
+    // Real-time subscription for bookings
+    const unsubBookings = base44.entities.Booking.subscribe((event) => {
+      if (event.type === 'create') {
+        setBookings(prev => [event.data, ...prev]);
+      } else if (event.type === 'update') {
+        setBookings(prev => prev.map(b => b.id === event.id ? event.data : b));
+      } else if (event.type === 'delete') {
+        setBookings(prev => prev.filter(b => b.id !== event.id));
+      }
+    });
+
+    // Real-time subscription for subscribers
+    const unsubSubscribers = base44.entities.NewsletterSubscriber.subscribe((event) => {
+      if (event.type === 'create') {
+        setSubscribers(prev => [event.data, ...prev]);
+      } else if (event.type === 'delete') {
+        setSubscribers(prev => prev.filter(s => s.id !== event.id));
+      }
+    });
+
+    return () => {
+      unsubBookings();
+      unsubSubscribers();
+    };
   }, []);
 
 
