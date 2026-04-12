@@ -65,6 +65,20 @@ export default function Navbar({ onBookClick }) {
               <Shield className="h-4 w-4" /> Admin
             </a>
           )}
+          <div className="flex items-center gap-1 bg-card border border-border/50 rounded-full px-1 py-1">
+            <button
+              onClick={() => toggleLang('fr')}
+              className={`font-body text-xs px-2.5 py-1 rounded-full transition-colors ${lang === 'fr' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+            >
+              FR
+            </button>
+            <button
+              onClick={() => toggleLang('en')}
+              className={`font-body text-xs px-2.5 py-1 rounded-full transition-colors ${lang === 'en' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+            >
+              EN
+            </button>
+          </div>
           <button
             onClick={() => { onBookClick(); setOpen(false); }}
             className="w-full font-body text-sm px-6 py-2.5 bg-primary text-primary-foreground rounded-full hover:opacity-90"
