@@ -161,7 +161,8 @@ export default function Admin() {
                   </thead>
                   <tbody>
                     {bookings.map(b => (
-                      <tr key={b.id} className="border-b border-border/30 last:border-0 hover:bg-muted/30 transition-colors">
+                      <React.Fragment key={b.id}>
+                        <tr className="border-b border-border/30 last:border-0 hover:bg-muted/30 transition-colors">
                         <td className="font-body text-sm px-5 py-3">{b.client_name}</td>
                         <td className="font-body text-xs text-muted-foreground px-5 py-3">{b.client_email}</td>
                         <td className="font-body text-xs px-5 py-3">{b.service || "—"}</td>
@@ -188,22 +189,23 @@ export default function Admin() {
                             Reschedule
                           </button>
                         </td>
-                      </tr>
-                      {rescheduleId === b.id ? (
-                        <tr className="bg-muted/30">
-                          <td colSpan="6" className="px-5 py-4">
-                            <div className="flex gap-2 items-center">
-                              <input type="datetime-local" value={rescheduleDate} onChange={(e) => setRescheduleDate(e.target.value)} className="flex-1 bg-input border border-border/50 rounded-lg px-3 py-2 text-sm font-body text-foreground" />
-                              <button onClick={() => handleReschedule(b.id)} className="font-body text-xs px-4 py-2 bg-primary text-primary-foreground rounded-full hover:opacity-90">
-                                Save
-                              </button>
-                              <button onClick={() => { setRescheduleId(null); setRescheduleDate(""); }} className="font-body text-xs px-4 py-2 bg-muted text-muted-foreground rounded-full hover:bg-muted/80">
-                                Cancel
-                              </button>
-                            </div>
-                          </td>
                         </tr>
-                      )}
+                        {rescheduleId === b.id ? (
+                          <tr className="bg-muted/30">
+                            <td colSpan="6" className="px-5 py-4">
+                              <div className="flex gap-2 items-center">
+                                <input type="datetime-local" value={rescheduleDate} onChange={(e) => setRescheduleDate(e.target.value)} className="flex-1 bg-input border border-border/50 rounded-lg px-3 py-2 text-sm font-body text-foreground" />
+                                <button onClick={() => handleReschedule(b.id)} className="font-body text-xs px-4 py-2 bg-primary text-primary-foreground rounded-full hover:opacity-90">
+                                  Save
+                                </button>
+                                <button onClick={() => { setRescheduleId(null); setRescheduleDate(""); }} className="font-body text-xs px-4 py-2 bg-muted text-muted-foreground rounded-full hover:bg-muted/80">
+                                  Cancel
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ) : null}
+                      </React.Fragment>
                     ))}
                   </tbody>
                 </table>
