@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -163,7 +163,7 @@ export default function Admin() {
                   </thead>
                   <tbody>
                     {bookings.map(b => (
-                      <> {/* key={b.id} */}
+                      <React.Fragment key={b.id}>
                         <tr className="border-b border-border/30 last:border-0 hover:bg-muted/30 transition-colors">
                         <td className="font-body text-sm px-5 py-3">{b.client_name}</td>
                         <td className="font-body text-xs text-muted-foreground px-5 py-3">{b.client_email}</td>
@@ -207,7 +207,7 @@ export default function Admin() {
                             </td>
                           </tr>
                         ) : null}
-                      </>
+                      </React.Fragment>
                     ))}
                   </tbody>
                 </table>
