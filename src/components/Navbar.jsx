@@ -51,9 +51,16 @@ export default function Navbar({ onBookClick }) {
           </button>
         </div>
 
-        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="md:hidden flex items-center gap-2">
+          {user?.role === 'admin' && (
+            <a href="/admin" title="Admin" className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors">
+              <Shield className="h-4 w-4 text-primary" />
+            </a>
+          )}
+          <button className="text-foreground" onClick={() => setOpen(!open)}>
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {open && (
