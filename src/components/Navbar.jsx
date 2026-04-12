@@ -60,6 +60,11 @@ export default function Navbar({ onBookClick }) {
         <div className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border px-6 py-4 space-y-4">
           <a href="#services" onClick={() => setOpen(false)} className="block font-body text-sm text-muted-foreground hover:text-primary">{tx.services}</a>
           <a href="#about" onClick={() => setOpen(false)} className="block font-body text-sm text-muted-foreground hover:text-primary">{tx.about}</a>
+          {user?.role === 'admin' && (
+            <a href="/admin" onClick={() => setOpen(false)} className="flex items-center gap-2 font-body text-sm text-primary hover:opacity-80">
+              <Shield className="h-4 w-4" /> Admin
+            </a>
+          )}
           <button
             onClick={() => { onBookClick(); setOpen(false); }}
             className="w-full font-body text-sm px-6 py-2.5 bg-primary text-primary-foreground rounded-full hover:opacity-90"
