@@ -17,13 +17,7 @@ export default function Admin() {
     base44.entities.NewsletterSubscriber.list("-created_date", 100).then(setSubscribers);
   }, []);
 
-  if (user?.role !== "admin") {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="font-body text-muted-foreground">Access restricted to administrators.</p>
-      </div>
-    );
-  }
+
 
   const webhookNote = "Copiez l'URL de la fonction calendlyWebhook depuis Dashboard → Code → Functions, puis collez-la dans Calendly → Intégrations → Webhooks.";
 
