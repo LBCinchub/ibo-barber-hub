@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Calendar, Users, Mail, CheckCircle2, XCircle, Clock, Copy, ExternalLink, ArrowLeft, Phone } from "lucide-react";
+import { Calendar, Users, Mail, CheckCircle2, XCircle, Clock, ExternalLink, ArrowLeft, Phone, Image } from "lucide-react";
+import GalleryManager from "@/components/admin/GalleryManager";
 
 const LOGO_URL = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/79b4b0762_IMG-20260516-WA0011.jpg";
 
@@ -130,16 +131,25 @@ export default function Admin() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6">
-          {["bookings", "subscribers"].map(t => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`font-body text-sm px-5 py-2 rounded-full transition-colors ${tab === t ? "bg-primary text-primary-foreground" : "bg-card border border-border/50 text-muted-foreground hover:text-foreground"}`}
-            >
-              {t === "bookings" ? `Bookings (${bookings.length})` : `Newsletter Subscribers (${subscribers.length})`}
-            </button>
-          ))}
+        <div className="flex flex-wrap gap-2 mb-6">
+          <button
+            onClick={() => setTab("bookings")}
+            className={`font-body text-sm px-5 py-2 rounded-full transition-colors ${tab === "bookings" ? "bg-primary text-primary-foreground" : "bg-card border border-border/50 text-muted-foreground hover:text-foreground"}`}
+          >
+            Bookings ({bookings.length})
+          </button>
+          <button
+            onClick={() => setTab("subscribers")}
+            className={`font-body text-sm px-5 py-2 rounded-full transition-colors ${tab === "subscribers" ? "bg-primary text-primary-foreground" : "bg-card border border-border/50 text-muted-foreground hover:text-foreground"}`}
+          >
+            Subscribers ({subscribers.length})
+          </button>
+          <button
+            onClick={() => setTab("gallery")}
+            className={`font-body text-sm px-5 py-2 rounded-full transition-colors ${tab === "gallery" ? "bg-primary text-primary-foreground" : "bg-card border border-border/50 text-muted-foreground hover:text-foreground"}`}
+          >
+            Gallery
+          </button>
         </div>
 
         {/* Bookings Table */}
@@ -289,6 +299,9 @@ export default function Admin() {
             )}
           </div>
         )}
+
+        {/* Gallery Manager */}
+        {tab === "gallery" && <GalleryManager />}
 
         {/* Subscribers Table */}
         {tab === "subscribers" && (
