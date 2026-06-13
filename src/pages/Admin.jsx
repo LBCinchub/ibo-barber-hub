@@ -152,74 +152,140 @@ export default function Admin() {
                 <p className="font-body text-xs text-muted-foreground mt-1">Set up the Calendly webhook above.</p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="border-b border-border/50">
-                    <tr>
-                      {["Client", "Contact", "Service", "Date & Time", "Status", "Actions"].map(h => (
-                        <th key={h} className="text-left font-body text-xs text-muted-foreground px-5 py-3">{h}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {bookings.map(b => (
-                      <React.Fragment key={b.id}>
-                        <tr className="border-b border-border/30 last:border-0 hover:bg-muted/30 transition-colors">
-                        <td className="font-body text-sm px-5 py-3">{b.client_name}</td>
-                        <td className="font-body text-xs text-muted-foreground px-5 py-3">
-                          <div>{b.client_email}</div>
-                          {b.client_phone && (
-                            <a href={`tel:${b.client_phone}`} className="flex items-center gap-1 hover:text-primary transition-colors mt-0.5">
-                              <Phone className="h-3 w-3" />
-                              {b.client_phone}
-                            </a>
-                          )}
-                        </td>
-                        <td className="font-body text-xs px-5 py-3">{b.service || "—"}</td>
-                        <td className="font-body text-xs text-muted-foreground px-5 py-3">
+              <>
+                {/* Mobile cards */}
+                <div className="md:hidden divide-y divide-border/30">
+                  {bookings.map(b => (
+                    <div key={b.id} className="p-4 space-y-3">
+                      {/* Name + status */}
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="font-body text-base font-medium text-foreground">{b.client_name}</p>
+                        <span className={`font-body text-xs px-3 py-1 rounded-full flex-shrink-0 ${b.status === "confirmed" ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"}`}>
+                          {b.status === "confirmed" ? "Confirmed" : "Cancelled"}
+                        </span>
+                      </div>
+                      {/* Contact */}
+                      <div className="space-y-1">
+                        <a href={`mailto:${b.client_email}`} className="font-body text-sm text-muted-foreground hover:text-primary transition-colors block py-1">
+                          {b.client_email}
+                        </a>
+                        {b.client_phone && (
+                          <a href={`tel:${b.client_phone}`} className="flex items-center gap-1.5 font-body text-sm text-muted-foreground hover:text-primary transition-colors py-1">
+                            <Phone className="h-3.5 w-3.5 flex-shrink-0" />
+                            {b.client_phone}
+                          </a>
+                        )}
+                      </div>
+                      {/* Service + datetime */}
+                      <div className="space-y-0.5">
+                        {b.service && <p className="font-body text-sm text-foreground">{b.service}</p>}
+                        <p className="font-body text-sm text-muted-foreground">
                           {b.start_time ? new Date(b.start_time).toLocaleString("fr-CA") : "—"}
-                        </td>
-                        <td className="px-5 py-3">
-                          <span className={`font-body text-xs px-3 py-1 rounded-full ${b.status === "confirmed" ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"}`}>
-                            {b.status === "confirmed" ? "Confirmed" : "Cancelled"}
-                          </span>
-                        </td>
-                        <td className="px-5 py-3 flex gap-2">
-                          {b.status !== "confirmed" && (
-                            <button onClick={() => handleConfirm(b.id)} className="font-body text-xs px-3 py-1 bg-green-500/10 text-green-400 rounded-full hover:bg-green-500/20 transition-colors">
-                              Confirm
-                            </button>
-                          )}
-                          {b.status === "confirmed" && (
-                            <button onClick={() => handleReject(b.id)} className="font-body text-xs px-3 py-1 bg-red-500/10 text-red-400 rounded-full hover:bg-red-500/20 transition-colors">
-                              Reject
-                            </button>
-                          )}
-                          <button onClick={() => setRescheduleId(b.id)} className="font-body text-xs px-3 py-1 bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors">
-                            Reschedule
+                        </p>
+                      </div>
+                      {/* Actions */}
+                      <div className="flex flex-col gap-2 pt-1">
+                        {b.status !== "confirmed" && (
+                          <button onClick={() => handleConfirm(b.id)} className="font-body text-sm w-full py-2.5 bg-green-500/10 text-green-400 rounded-full hover:bg-green-500/20 transition-colors">
+                            Confirm
                           </button>
-                        </td>
-                        </tr>
-                        {rescheduleId === b.id ? (
-                          <tr className="bg-muted/30">
-                            <td colSpan="6" className="px-5 py-4">
-                              <div className="flex gap-2 items-center">
-                                <input type="datetime-local" value={rescheduleDate} onChange={(e) => setRescheduleDate(e.target.value)} className="flex-1 bg-input border border-border/50 rounded-lg px-3 py-2 text-sm font-body text-foreground" />
-                                <button onClick={() => handleReschedule(b.id)} className="font-body text-xs px-4 py-2 bg-primary text-primary-foreground rounded-full hover:opacity-90">
-                                  Save
+                        )}
+                        {b.status === "confirmed" && (
+                          <button onClick={() => handleReject(b.id)} className="font-body text-sm w-full py-2.5 bg-red-500/10 text-red-400 rounded-full hover:bg-red-500/20 transition-colors">
+                            Reject
+                          </button>
+                        )}
+                        <button onClick={() => setRescheduleId(rescheduleId === b.id ? null : b.id)} className="font-body text-sm w-full py-2.5 bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors">
+                          Reschedule
+                        </button>
+                        {rescheduleId === b.id && (
+                          <div className="flex flex-col gap-2 pt-1">
+                            <input type="datetime-local" value={rescheduleDate} onChange={(e) => setRescheduleDate(e.target.value)} className="w-full bg-input border border-border/50 rounded-lg px-3 py-2.5 text-sm font-body text-foreground" />
+                            <div className="flex gap-2">
+                              <button onClick={() => handleReschedule(b.id)} className="flex-1 font-body text-sm py-2.5 bg-primary text-primary-foreground rounded-full hover:opacity-90">
+                                Save
+                              </button>
+                              <button onClick={() => { setRescheduleId(null); setRescheduleDate(""); }} className="flex-1 font-body text-sm py-2.5 bg-muted text-muted-foreground rounded-full hover:bg-muted/80">
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop table */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="border-b border-border/50">
+                      <tr>
+                        {["Client", "Contact", "Service", "Date & Time", "Status", "Actions"].map(h => (
+                          <th key={h} className="text-left font-body text-xs text-muted-foreground px-5 py-3">{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bookings.map(b => (
+                        <React.Fragment key={b.id}>
+                          <tr className="border-b border-border/30 last:border-0 hover:bg-muted/30 transition-colors">
+                            <td className="font-body text-sm px-5 py-3">{b.client_name}</td>
+                            <td className="font-body text-xs text-muted-foreground px-5 py-3">
+                              <div>{b.client_email}</div>
+                              {b.client_phone && (
+                                <a href={`tel:${b.client_phone}`} className="flex items-center gap-1 hover:text-primary transition-colors mt-0.5">
+                                  <Phone className="h-3 w-3" />
+                                  {b.client_phone}
+                                </a>
+                              )}
+                            </td>
+                            <td className="font-body text-xs px-5 py-3">{b.service || "—"}</td>
+                            <td className="font-body text-xs text-muted-foreground px-5 py-3">
+                              {b.start_time ? new Date(b.start_time).toLocaleString("fr-CA") : "—"}
+                            </td>
+                            <td className="px-5 py-3">
+                              <span className={`font-body text-xs px-3 py-1 rounded-full ${b.status === "confirmed" ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"}`}>
+                                {b.status === "confirmed" ? "Confirmed" : "Cancelled"}
+                              </span>
+                            </td>
+                            <td className="px-5 py-3 flex gap-2">
+                              {b.status !== "confirmed" && (
+                                <button onClick={() => handleConfirm(b.id)} className="font-body text-xs px-3 py-1 bg-green-500/10 text-green-400 rounded-full hover:bg-green-500/20 transition-colors">
+                                  Confirm
                                 </button>
-                                <button onClick={() => { setRescheduleId(null); setRescheduleDate(""); }} className="font-body text-xs px-4 py-2 bg-muted text-muted-foreground rounded-full hover:bg-muted/80">
-                                  Cancel
+                              )}
+                              {b.status === "confirmed" && (
+                                <button onClick={() => handleReject(b.id)} className="font-body text-xs px-3 py-1 bg-red-500/10 text-red-400 rounded-full hover:bg-red-500/20 transition-colors">
+                                  Reject
                                 </button>
-                              </div>
+                              )}
+                              <button onClick={() => setRescheduleId(b.id)} className="font-body text-xs px-3 py-1 bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors">
+                                Reschedule
+                              </button>
                             </td>
                           </tr>
-                        ) : null}
-                      </React.Fragment>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                          {rescheduleId === b.id ? (
+                            <tr className="bg-muted/30">
+                              <td colSpan="6" className="px-5 py-4">
+                                <div className="flex gap-2 items-center">
+                                  <input type="datetime-local" value={rescheduleDate} onChange={(e) => setRescheduleDate(e.target.value)} className="flex-1 bg-input border border-border/50 rounded-lg px-3 py-2 text-sm font-body text-foreground" />
+                                  <button onClick={() => handleReschedule(b.id)} className="font-body text-xs px-4 py-2 bg-primary text-primary-foreground rounded-full hover:opacity-90">
+                                    Save
+                                  </button>
+                                  <button onClick={() => { setRescheduleId(null); setRescheduleDate(""); }} className="font-body text-xs px-4 py-2 bg-muted text-muted-foreground rounded-full hover:bg-muted/80">
+                                    Cancel
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ) : null}
+                        </React.Fragment>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
             )}
           </div>
         )}
