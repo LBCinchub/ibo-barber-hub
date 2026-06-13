@@ -310,6 +310,9 @@ export default function Admin() {
         {/* Gallery Section */}
         {tab === "gallery" && <GalleryManager />}
 
+        {/* Schedule Section */}
+        {tab === "schedule" && <AvailabilityManager />}
+
         {/* Subscribers Table */}
         {tab === "subscribers" && (
           <div className="bg-card border border-border/50 rounded-2xl overflow-hidden">

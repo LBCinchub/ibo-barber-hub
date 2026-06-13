@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X, CheckCircle2, ChevronRight, ChevronLeft, User, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { base44 } from "@/api/base44Client";
-// schedule-aware booking
 import { useLang } from "@/lib/LanguageContext";
 import { t } from "@/lib/translations";
 
@@ -136,13 +135,15 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
-  const [schedule, setSchedule] = useState([]);
-  const [blockedDates, setBlockedDates] = useState([]);
+  const [liveSchedule, setLiveSchedule] = useState([]);
+  const [liveBlockedDates, setLiveBlockedDates] = useState([]);
 
   useEffect(() => {
-    base44.entities.WorkingSchedule.list().then(setSchedule);
-    base44.entities.BlockedDate.list("-date", 100).then(setBlockedDates);
-  }, []);
+    if (isOpen) {
+      base44.entities.WorkingSchedule.list().then(setLiveSchedule);
+      base44.entities.BlockedDate.list("-date", 200).then(setLiveBlockedDates);
+    }
+  }, [isOpen]);
 
   const reset = () => {
     setStep(0); setService(preSelectedService ?? null);
@@ -246,13 +247,13 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
                 <div className="space-y-6">
                   <div>
                     <p className="font-body text-sm text-muted-foreground mb-3">{tx.select_date}</p>
-                    <Calendar selected={date} onSelect={(d) => { setDate(d); setTime(null); }} lang={lang} schedule={schedule} blockedDates={blockedDates} />
+                    <Calendar selected={date} onSelect={(d) => { setDate(d); setTime(null); }} lang={lang} schedule={liveSchedule} blockedDates={liveBlockedDates} />
                   </div>
                   {date && (
                     <div>
                       <p className="font-body text-sm text-muted-foreground mb-3">{tx.select_time}</p>
                       {(() => {
-                        const slots = getSlotsForDate(date, schedule);
+                        const slots = getSlotsForDate(date, liveSchedule);
                         const morning = slots.filter(s => parseInt(s) < 12);
                         const afternoon = slots.filter(s => parseInt(s) >= 12);
                         return (
