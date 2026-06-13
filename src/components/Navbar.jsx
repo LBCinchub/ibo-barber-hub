@@ -4,7 +4,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { useLang } from "@/lib/LanguageContext";
 import { t } from "@/lib/translations";
 
-const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
+const LOGO_URL = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/16fbcb8bf_IMG-20260516-WA0011.jpg";
 
 export default function Navbar({ onBookClick }) {
   const [open, setOpen] = useState(false);
