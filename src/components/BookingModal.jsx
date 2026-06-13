@@ -137,6 +137,8 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
   const [done, setDone] = useState(false);
   const [liveSchedule, setLiveSchedule] = useState([]);
   const [liveBlockedDates, setLiveBlockedDates] = useState([]);
+  const [dateError, setDateError] = useState(false);
+  const [timeError, setTimeError] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -247,11 +249,13 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
                 <div className="space-y-6">
                   <div>
                     <p className="font-body text-sm text-muted-foreground mb-3">{tx.select_date}</p>
-                    <Calendar selected={date} onSelect={(d) => { setDate(d); setTime(null); }} lang={lang} schedule={liveSchedule} blockedDates={liveBlockedDates} />
+                    <Calendar selected={date} onSelect={(d) => { setDate(d); setTime(null); setDateError(false); }} lang={lang} schedule={liveSchedule} blockedDates={liveBlockedDates} />
+                    {dateError && <p className="font-body text-xs text-red-400 mt-2">⚠ {lang === "fr" ? "Veuillez sélectionner une date" : "Please select a date"}</p>}
                   </div>
                   {date && (
                     <div>
                       <p className="font-body text-sm text-muted-foreground mb-3">{tx.select_time}</p>
+                      {timeError && <p className="font-body text-xs text-red-400 mb-2">⚠ {lang === "fr" ? "Veuillez sélectionner une heure" : "Please select a time"}</p>}
                       {(() => {
                         const slots = getSlotsForDate(date, liveSchedule);
                         const morning = slots.filter(s => parseInt(s) < 12);
@@ -263,7 +267,7 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
                                 <p className="font-body text-xs text-muted-foreground/60 mb-2">{tx.morning}</p>
                                 <div className="flex flex-wrap gap-2">
                                   {morning.map(s => (
-                                    <button key={s} onClick={() => setTime(s)}
+                                    <button key={s} onClick={() => { setTime(s); setTimeError(false); }}
                                       className={`px-4 py-2 rounded-full border font-body text-sm transition-all ${time === s ? "border-primary bg-primary text-primary-foreground" : "border-border/50 hover:border-primary/40 text-muted-foreground"}`}>
                                       {s}
                                     </button>
@@ -276,7 +280,7 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
                                 <p className="font-body text-xs text-muted-foreground/60 mb-2">{tx.afternoon}</p>
                                 <div className="flex flex-wrap gap-2">
                                   {afternoon.map(s => (
-                                    <button key={s} onClick={() => setTime(s)}
+                                    <button key={s} onClick={() => { setTime(s); setTimeError(false); }}
                                       className={`px-4 py-2 rounded-full border font-body text-sm transition-all ${time === s ? "border-primary bg-primary text-primary-foreground" : "border-border/50 hover:border-primary/40 text-muted-foreground"}`}>
                                       {s}
                                     </button>
@@ -327,8 +331,19 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
 
                 {step < 2 ? (
                   <button
-                    disabled={(step === 0 && !service) || (step === 1 && (!date || !time))}
-                    onClick={() => setStep(s => s + 1)}
+                    disabled={step === 0 && !service}
+                    onClick={() => {
+                      if (step === 1) {
+                        const noDate = !date;
+                        const noTime = !time;
+                        setDateError(noDate);
+                        setTimeError(noTime);
+                        if (noDate || noTime) return;
+                      }
+                      setDateError(false);
+                      setTimeError(false);
+                      setStep(s => s + 1);
+                    }}
                     className="flex items-center gap-1 font-body text-sm px-6 py-2.5 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity disabled:opacity-40">
                     {tx.next} <ChevronRight className="h-4 w-4" />
                   </button>

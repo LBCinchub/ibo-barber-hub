@@ -193,13 +193,18 @@ export default function Admin() {
                           </a>
                         )}
                       </div>
-                      {/* Service + datetime */}
-                      <div className="space-y-0.5">
-                        {b.service && <p className="font-body text-sm text-foreground">{b.service}</p>}
-                        <p className="font-body text-sm text-muted-foreground">
-                          {b.start_time ? new Date(b.start_time).toLocaleString("fr-CA") : "—"}
-                        </p>
+                      {/* Date/time — most prominent */}
+                      <div className="flex items-center gap-2">
+                        {b.start_time ? (
+                          <p className="font-body text-base font-semibold text-primary">
+                            {(() => { try { return new Date(b.start_time).toLocaleString("fr-CA"); } catch { return b.start_time; } })()}
+                          </p>
+                        ) : (
+                          <p className="font-body text-sm font-semibold text-red-400">⚠️ No date selected</p>
+                        )}
                       </div>
+                      {/* Service */}
+                      {b.service && <p className="font-body text-sm text-muted-foreground">{b.service}</p>}
                       {/* Actions */}
                       <div className="flex flex-col gap-2 pt-1">
                         {b.status !== "confirmed" && (
@@ -258,8 +263,14 @@ export default function Admin() {
                               )}
                             </td>
                             <td className="font-body text-xs px-5 py-3">{b.service || "—"}</td>
-                            <td className="font-body text-xs text-muted-foreground px-5 py-3">
-                              {b.start_time ? new Date(b.start_time).toLocaleString("fr-CA") : "—"}
+                            <td className="px-5 py-3">
+                              {b.start_time ? (
+                                <span className="font-body text-sm font-semibold text-primary">
+                                  {(() => { try { return new Date(b.start_time).toLocaleString("fr-CA"); } catch { return b.start_time; } })()}
+                                </span>
+                              ) : (
+                                <span className="font-body text-xs font-semibold text-red-400">⚠️ No date selected</span>
+                              )}
                             </td>
                             <td className="px-5 py-3">
                               <span className={`font-body text-xs px-3 py-1 rounded-full ${b.status === "confirmed" ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"}`}>
