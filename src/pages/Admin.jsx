@@ -4,7 +4,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Users, Mail, CheckCircle2, XCircle, Clock, Copy, ExternalLink, ArrowLeft, Phone } from "lucide-react";
 
-const LOGO_URL = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/16fbcb8bf_IMG-20260516-WA0011.jpg";
+const LOGO_URL = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/79b4b0762_IMG-20260516-WA0011.jpg";
 
 export default function Admin() {
   const { user } = useAuth();
@@ -83,7 +83,7 @@ export default function Admin() {
       <div className="bg-card border-b border-border/50 px-6 py-4 flex items-center gap-4">
         <img src={LOGO_URL} alt="IBO Barber" className="h-10 w-10 rounded-full" />
         <div>
-          <button onClick={() => base44.auth.redirectToLogin()} className="font-heading text-xl hover:text-primary transition-colors cursor-pointer">IBO Barber — Admin</button>
+          <button onClick={() => base44.auth.redirectToLogin()} className="font-heading text-xl hover:text-primary transition-colors cursor-pointer">I.B.O — Admin</button>
           <p className="font-body text-xs text-muted-foreground">Dashboard</p>
         </div>
         <a href="/" className="ml-auto font-body text-xs text-primary hover:underline flex items-center gap-1.5">

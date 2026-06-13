@@ -4,7 +4,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { useLang } from "@/lib/LanguageContext";
 import { t } from "@/lib/translations";
 
-const LOGO_URL = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/16fbcb8bf_IMG-20260516-WA0011.jpg";
+const LOGO_URL = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/79b4b0762_IMG-20260516-WA0011.jpg";
 
 export default function Navbar({ onBookClick }) {
   const [open, setOpen] = useState(false);
@@ -17,7 +17,7 @@ export default function Navbar({ onBookClick }) {
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         <a href="#hero" className="flex items-center gap-3">
           <img src={LOGO_URL} alt="IBO Barber" className="h-10 w-10 rounded-full object-cover" />
-          <span className="font-heading text-xl text-foreground tracking-wide">IBO Barber</span>
+          <span className="font-heading text-xl text-foreground tracking-wide">I.B.O</span>
         </a>
 
         <div className="hidden md:flex items-center gap-8">

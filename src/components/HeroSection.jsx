@@ -3,7 +3,7 @@ import { Scissors } from "lucide-react";
 import { useLang } from "@/lib/LanguageContext";
 import { t } from "@/lib/translations";
 
-const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
+const LOGO_URL = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/79b4b0762_IMG-20260516-WA0011.jpg";
 const HERO_BG = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/653883b86_generated_image.png";
 
 export default function HeroSection({ onBookClick }) {
@@ -23,7 +23,7 @@ export default function HeroSection({ onBookClick }) {
           transition={{ duration: 0.8 }}
           className="mb-8"
         >
-          <img src={LOGO_URL} alt="IBO Barber" className="h-32 w-32 md:h-40 md:w-40 rounded-full mx-auto border-2 border-primary/40 shadow-2xl shadow-primary/20" />
+          <img src={LOGO_URL} alt="I.B.O" className="h-32 w-32 md:h-40 md:w-40 rounded-full mx-auto object-cover border-2 border-primary/40 shadow-2xl shadow-primary/20" />
         </motion.div>
 
         <motion.h1
@@ -32,7 +32,7 @@ export default function HeroSection({ onBookClick }) {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="font-heading text-5xl md:text-7xl text-foreground mb-4"
         >
-          IBO Barber
+          I.B.O
         </motion.h1>
 
         <motion.div
