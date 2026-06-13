@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Calendar, Users, Mail, CheckCircle2, XCircle, Clock, Copy, ExternalLink, ArrowLeft } from "lucide-react";
+import { Calendar, Users, Mail, CheckCircle2, XCircle, Clock, Copy, ExternalLink, ArrowLeft, Phone } from "lucide-react";
 
 const LOGO_URL = "https://media.base44.com/images/public/user_69295748ef95b1eff658733b/4b64ead64_IMG-20260409-WA0002.jpg";
 
@@ -156,7 +156,7 @@ export default function Admin() {
                 <table className="w-full">
                   <thead className="border-b border-border/50">
                     <tr>
-                      {["Client", "Email", "Service", "Date & Time", "Status", "Actions"].map(h => (
+                      {["Client", "Contact", "Service", "Date & Time", "Status", "Actions"].map(h => (
                         <th key={h} className="text-left font-body text-xs text-muted-foreground px-5 py-3">{h}</th>
                       ))}
                     </tr>
@@ -166,7 +166,15 @@ export default function Admin() {
                       <React.Fragment key={b.id}>
                         <tr className="border-b border-border/30 last:border-0 hover:bg-muted/30 transition-colors">
                         <td className="font-body text-sm px-5 py-3">{b.client_name}</td>
-                        <td className="font-body text-xs text-muted-foreground px-5 py-3">{b.client_email}</td>
+                        <td className="font-body text-xs text-muted-foreground px-5 py-3">
+                          <div>{b.client_email}</div>
+                          {b.client_phone && (
+                            <a href={`tel:${b.client_phone}`} className="flex items-center gap-1 hover:text-primary transition-colors mt-0.5">
+                              <Phone className="h-3 w-3" />
+                              {b.client_phone}
+                            </a>
+                          )}
+                        </td>
                         <td className="font-body text-xs px-5 py-3">{b.service || "—"}</td>
                         <td className="font-body text-xs text-muted-foreground px-5 py-3">
                           {b.start_time ? new Date(b.start_time).toLocaleString("fr-CA") : "—"}

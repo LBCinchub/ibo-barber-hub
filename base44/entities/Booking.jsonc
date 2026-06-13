@@ -10,6 +10,10 @@
       "type": "string",
       "title": "Email"
     },
+    "client_phone": {
+      "type": "string",
+      "title": "Phone"
+    },
     "service": {
       "type": "string",
       "title": "Service"
