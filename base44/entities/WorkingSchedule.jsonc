@@ -1,0 +1,28 @@
+{
+  "name": "WorkingSchedule",
+  "type": "object",
+  "properties": {
+    "day_of_week": {
+      "type": "integer",
+      "title": "Day of Week (0=Sun, 6=Sat)"
+    },
+    "is_open": {
+      "type": "boolean",
+      "title": "Is Open",
+      "default": true
+    },
+    "open_time": {
+      "type": "string",
+      "title": "Open Time",
+      "default": "09:00"
+    },
+    "close_time": {
+      "type": "string",
+      "title": "Close Time",
+      "default": "18:00"
+    }
+  },
+  "required": [
+    "day_of_week"
+  ]
+}

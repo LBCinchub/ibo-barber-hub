@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, CheckCircle2, ChevronRight, ChevronLeft, User, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { base44 } from "@/api/base44Client";
+// schedule-aware booking
 import { useLang } from "@/lib/LanguageContext";
 import { t } from "@/lib/translations";
 
@@ -10,20 +11,35 @@ const SERVICES_EN = ["Men's Haircut — 18$", "Boy's Haircut — 12$", "Fade / S
 const WOMEN_SERVICES_FR = ["Traitement / Démélant — 20$", "Coloration Complète — 60$", "Coloration Racines — 45$", "Permanente — 50$", "Consultation — Gratuit"];
 const WOMEN_SERVICES_EN = ["Treatment — 20$", "Full Coloring — 60$", "Root Touch-up — 45$", "Perm — 50$", "Consultation — Free"];
 
-const MONDAY_SLOTS = ["9:00","9:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30"];
-const WEEKDAY_SLOTS = ["9:00","9:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30"];
+const generateTimeSlots = (openTime, closeTime) => {
+  const slots = [];
+  let [h, m] = openTime.split(":").map(Number);
+  const [closeH, closeM] = closeTime.split(":").map(Number);
+  while (h < closeH || (h === closeH && m < closeM)) {
+    slots.push(`${h}:${m.toString().padStart(2, "0")}`);
+    m += 30;
+    if (m >= 60) { m = 0; h++; }
+  }
+  return slots;
+};
 
-const getSlotsForDate = (d) => {
+const getSlotsForDate = (d, schedule) => {
   if (!d) return [];
-  const day = d.getDay(); // 0=Sun
-  if (day === 0) return []; // closed Sunday
-  if (day === 1) return MONDAY_SLOTS; // Monday
-  return WEEKDAY_SLOTS; // Tue-Sat
+  if (schedule && schedule.length > 0) {
+    const daySchedule = schedule.find(s => s.day_of_week === d.getDay());
+    if (!daySchedule || !daySchedule.is_open) return [];
+    return generateTimeSlots(daySchedule.open_time, daySchedule.close_time);
+  }
+  // fallback defaults
+  const day = d.getDay();
+  if (day === 0) return [];
+  if (day === 1) return ["9:00","9:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30"];
+  return ["9:00","9:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30"];
 };
 
 const fmt = (d, lang) => d.toLocaleDateString(lang === "fr" ? "fr-CA" : "en-CA", { weekday: "short", month: "short", day: "numeric" });
 
-function Calendar({ selected, onSelect, lang }) {
+function Calendar({ selected, onSelect, lang, schedule = [], blockedDates = [] }) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const [viewYear, setViewYear] = useState(today.getFullYear());
@@ -78,8 +94,17 @@ function Calendar({ selected, onSelect, lang }) {
         {cells.map((day, i) => {
           if (!day) return <div key={`e-${i}`} />;
           const d = new Date(viewYear, viewMonth, day);
-          const isDisabled = d < today || d.getDay() === 0;
-          const isSelected = selected && selected.toDateString() === d.toDateString();
+          const isDisabled = (() => {
+              if (d < today) return true;
+              const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+              if (blockedDates.some(b => b.date === dateStr)) return true;
+              if (schedule.length > 0) {
+                const daySchedule = schedule.find(s => s.day_of_week === d.getDay());
+                return !daySchedule || !daySchedule.is_open;
+              }
+              return d.getDay() === 0; // fallback: closed Sunday
+            })();
+            const isSelected = selected && selected.toDateString() === d.toDateString();
           return (
             <button key={day} onClick={() => !isDisabled && onSelect(d)} disabled={isDisabled}
               className={`h-9 w-full rounded-lg font-body text-sm transition-all
@@ -111,6 +136,13 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [schedule, setSchedule] = useState([]);
+  const [blockedDates, setBlockedDates] = useState([]);
+
+  useEffect(() => {
+    base44.entities.WorkingSchedule.list().then(setSchedule);
+    base44.entities.BlockedDate.list("-date", 100).then(setBlockedDates);
+  }, []);
 
   const reset = () => {
     setStep(0); setService(preSelectedService ?? null);
@@ -214,13 +246,13 @@ export default function BookingModal({ isOpen, onClose, preSelectedService }) {
                 <div className="space-y-6">
                   <div>
                     <p className="font-body text-sm text-muted-foreground mb-3">{tx.select_date}</p>
-                    <Calendar selected={date} onSelect={(d) => { setDate(d); setTime(null); }} lang={lang} />
+                    <Calendar selected={date} onSelect={(d) => { setDate(d); setTime(null); }} lang={lang} schedule={schedule} blockedDates={blockedDates} />
                   </div>
                   {date && (
                     <div>
                       <p className="font-body text-sm text-muted-foreground mb-3">{tx.select_time}</p>
                       {(() => {
-                        const slots = getSlotsForDate(date);
+                        const slots = getSlotsForDate(date, schedule);
                         const morning = slots.filter(s => parseInt(s) < 12);
                         const afternoon = slots.filter(s => parseInt(s) >= 12);
                         return (

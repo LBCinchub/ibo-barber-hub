@@ -4,6 +4,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Users, Mail, CheckCircle2, XCircle, Clock, ExternalLink, ArrowLeft, Phone, Image } from "lucide-react";
 import GalleryManager from "@/components/admin/GalleryManager";
+import AvailabilityManager from "@/components/admin/AvailabilityManager";
 
 const LOGO_URL = "https://media.base44.com/images/public/69d864a1af1cf9da878f9e05/79b4b0762_IMG-20260516-WA0011.jpg";
 
@@ -149,6 +150,12 @@ export default function Admin() {
             className={`font-body text-sm px-5 py-2 rounded-full transition-colors ${tab === "gallery" ? "bg-primary text-primary-foreground" : "bg-card border border-border/50 text-muted-foreground hover:text-foreground"}`}
           >
             Gallery
+          </button>
+          <button
+            onClick={() => setTab("schedule")}
+            className={`font-body text-sm px-5 py-2 rounded-full transition-colors ${tab === "schedule" ? "bg-primary text-primary-foreground" : "bg-card border border-border/50 text-muted-foreground hover:text-foreground"}`}
+          >
+            Schedule
           </button>
         </div>
 

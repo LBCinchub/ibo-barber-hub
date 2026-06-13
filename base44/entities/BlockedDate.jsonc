@@ -1,0 +1,17 @@
+{
+  "name": "BlockedDate",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "title": "Date (YYYY-MM-DD)"
+    },
+    "reason": {
+      "type": "string",
+      "title": "Reason"
+    }
+  },
+  "required": [
+    "date"
+  ]
+}
