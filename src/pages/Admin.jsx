@@ -300,7 +300,7 @@ export default function Admin() {
           </div>
         )}
 
-        {/* Gallery Manager */}
+        {/* Gallery Section */}
         {tab === "gallery" && <GalleryManager />}
 
         {/* Subscribers Table */}
